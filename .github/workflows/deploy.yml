@@ -1,0 +1,63 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Ensure a release tag on main is being deployed
+      run: |
+        if [[ "$GITHUB_REF" != refs/tags/v* ]]; then
+          echo "::error::Deploys must run from a v* tag, not $GITHUB_REF"
+          exit 1
+        fi
+        git fetch origin main
+        if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+          echo "::error::$GITHUB_REF_NAME is not on main"
+          exit 1
+        fi
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: true
+
+    - name: Build the Jekyll site
+      run: bundle exec jekyll build
+      env:
+        JEKYLL_ENV: production
+
+    - name: Validate feeds
+      run: bundle exec ruby .github/scripts/validate-feeds.rb
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+
+    - name: Sync _site to S3
+      run: aws s3 sync ./_site "s3://${{ secrets.DESTINATION_BUCKET }}" --delete --acl public-read
+
+    - name: Invalidate CloudFront cache
+      run: aws cloudfront create-invalidation --distribution-id "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/*"

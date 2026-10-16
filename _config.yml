@@ -4,6 +4,14 @@ description:        House & Trance Mixes
 author:             DJ Abstraction
 baseurl:            ""
 url:                "https://www.djabstraction.com"
+timezone:           Europe/London
+
+exclude:
+  - docs
+  - README.md
+  - AGENTS.md
+  - LICENSE
+  - jekyll-theme-clean-blog.gemspec
 
 instagram_username:  djabstraction
 linkedin_username:
