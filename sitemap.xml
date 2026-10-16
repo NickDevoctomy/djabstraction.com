@@ -1,0 +1,19 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- assign posts = collections.posts | reverse -%}
+{%- for post in posts %}
+<url>
+<loc>{{ post.url | absolute_url | xml_escape }}</loc>
+<lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+</url>
+{%- endfor -%}
+{%- for item in collections.sitemapPages %}
+<url>
+<loc>{{ item.url | absolute_url | xml_escape }}</loc>
+</url>
+{%- endfor %}
+</urlset>

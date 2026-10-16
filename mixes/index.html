@@ -1,13 +1,15 @@
 ---
 layout: page
-title: Mixes
 background: '/img/bg-post.jpg'
-pagination: 
-  enabled: true
-  tag: mix
-  filter:
-    - "archived"
+pagination:
+  data: collections.mixPosts
+  size: 10
+  addAllPagesToCollections: true
+permalink: "/mixes/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber | plus: 1 }}/{% endif %}"
+eleventyComputed:
+  title: "Mixes{% if pagination.pageNumber > 0 %} - page {{ pagination.pageNumber | plus: 1 }}{% endif %}"
 ---
+{% assign paginator = pagination | paginator %}
 
 {% for post in paginator.posts %}
 

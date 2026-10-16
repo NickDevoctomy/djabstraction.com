@@ -12,7 +12,8 @@ background: '/img/bg-cookies.jpg'
 Cookies are simple text files that are stored on your computer or mobile device by a website’s server. Each cookie is unique to your web browser. It will contain some anonymous information such as a unique identifier, website’s domain name, and some digits and numbers.
 
 ## What types of cookies do we use?
-<br/>
+<p><br /></p>
+
 ### Necessary cookies
 
 Necessary cookies allow us to offer you the best possible experience when accessing and navigating through our website and using its features. For example, dismissing the cookie popup so that we don't keep showing it to you.

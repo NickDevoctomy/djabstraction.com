@@ -6,7 +6,7 @@ background: '/img/bg-tags.jpg'
 ---
 
 <div class="tags">
-{% assign tags_list = site.tags %}
+{% assign tags_list = collections.tagList %}
   {% if tags_list.first[0] == null %}
     {% for tag in tags_list %}
         <a data-scroll href="#{{ tag }}">{{ tag }}</a>
@@ -19,14 +19,14 @@ background: '/img/bg-tags.jpg'
 {% assign tags_list = nil %}
 </div>
 
-{% for tag in site.tags  %}
+{% for tag in collections.tagList  %}
     <span class="tag-title" id="{{ tag[0] }}">{{ tag[0] }}</span>
     <ul class="post-list">
         {% assign pages_list = tag[1] %}
         {% for post in pages_list reversed %}
             {% if post.title != null %}
             {% if group == null or group == post.group %}
-            <li><a href="{{ post.url }}">{{ post.title }}<span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time></a></li>
+            <li><a href="{{ post.url }}">{{ post.title }}{% if post.subtitle %} - {{ post.subtitle }}{% endif %}<span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time></a></li>
             {% endif %}
             {% endif %}
         {% endfor %}

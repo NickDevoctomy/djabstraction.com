@@ -20,9 +20,9 @@ Once you have picked a podcast player and have installed it to your device, you 
 
 > This feed link is available at the bottom of every page via the social links.
 
-To make things super simple, I have made my podcast available on <a href="https://play.google.com/store/apps/details?id=de.danoeh.antennapod&pcampaignid=web_share">AntennaPod for Android</a>. Simply install the app and click the link below, or search for my podcast via the term 'DJ Abstraction'.
+To make things super simple, I have made my podcast available on <a href="https://play.google.com/store/apps/details?id=de.danoeh.antennapod&amp;pcampaignid=web_share">AntennaPod for Android</a>. Simply install the app and click the link below, or search for my podcast via the term 'DJ Abstraction'.
 
-<a href="https://antennapod.org/deeplink/subscribe?url=https%3A%2F%2Fwww.djabstraction.com%2Ffeed%2Fpodcast.xml&title=DJ%20Abstraction%27s%20Warmup%20Sessions"><img src="/img/podcast/apbadge.png" width="250"></a>	
+<a href="https://antennapod.org/deeplink/subscribe?url=https%3A%2F%2Fwww.djabstraction.com%2Ffeed%2Fpodcast.xml&amp;title=DJ%20Abstraction%27s%20Warmup%20Sessions"><img src="/img/podcast/apbadge.png" width="250" /></a>	
 
 Once subscribed you should receieve notifications of new mixes as they go live and be able to listen straight away without any messing about.
 

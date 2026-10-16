@@ -26,7 +26,7 @@ But that's not all, I've also created a video to go with the track, featuring im
     frameborder="0" 
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
     referrerpolicy="strict-origin-when-cross-origin" 
-    allowfullscreen 
+    allowfullscreen="" 
     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
   </iframe>
 </div>

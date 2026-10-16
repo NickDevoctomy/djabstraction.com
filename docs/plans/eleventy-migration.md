@@ -1,6 +1,6 @@
 # Plan: Migrate from Jekyll to Eleventy
 
-**Status:** Ready to start
+**Status:** Phase 0 and Phase 1 (1.1–1.6) done, uncommitted. 1.7 (remove Jekyll) waits for Phase 2. See "Phase 1 notes" below.
 **Date:** 2026-10-16
 **Branch:** `eleventy` (already checked out by the maintainer)
 **Background:** see `build-and-deploy-refactor.md` section 3 for why Eleventy was chosen.
@@ -188,6 +188,23 @@ Change `build.yml` and `deploy.yml`:
   - `README.md`: Node setup in WSL, the build/serve/validate commands, and the release section (unchanged apart from commands).
   - `AGENTS.md`: replace the Ruby/Bundler commands with npm ones, and keep the rules section word for word.
   - This plan: update its status.
+
+---
+
+## Phase 1 notes (findings that correct or extend the plan)
+
+- **Timezone:** the "Behaviour" table above is wrong. Jekyll (Psych) reads offset-less front matter dates as **UTC** and shows them in London time, e.g. `date: 2025-06-08 00:00:00` is published as `2025-06-08T01:00:00+01:00`. JavaScript YAML parsing already gives the same instant, so nothing is reinterpreted. Every date is just formatted in Europe/London (Luxon, in `_11ty/jekyll.js`).
+- **Excerpts depend on line endings:** Jekyll splits the raw source on `
+
+`, so a post saved with CRLF has its whole content as its excerpt. Two blog posts are committed with CRLF, and their feed.xml `<summary>` is the full text on live. The port copies this exactly. Normalising line endings would change those two summaries.
+- **Post order with equal timestamps** (`newformat` and `warmupsessions_11`): previous/next and tags use date then file name ascending, but feed.xml lists `newformat` first. Both orders are copied (`feedPosts` collection).
+- **`/posts/` markup:** Jekyll rendered `/posts/` from the *mixes* template (a jekyll-paginate-v2 template-cache quirk), so live uses `h2`/`h4` there. `posts/index.html` now matches what live serves.
+- **Raw HTML in Markdown:** kramdown re-serialised inline HTML and markdown-it passes it through. Four source snippets were rewritten in the form kramdown output (`&amp;` in hrefs, `<img … />`, `allowfullscreen=""`, `<p><br /></p>` in `cookies/index.md`). Without the cookies change, CommonMark would swallow the `### Necessary cookies` heading into the HTML block.
+- **Block spacing:** markdown-it's renderer is wrapped to keep kramdown's blank line between blocks. Without it, `<itunes:subtitle>` (truncated to 252 characters) is cut at a different point.
+- **`<generator>`** is now `Eleventy` in both feeds (an allowed difference).
+- **Tags page (deliberate change, requested by the maintainer):** entries now show the subtitle after the title, e.g. "DJ Abstraction's Warmup Sessions - Episode 16". Before, every mix showed the same title. Expect this difference in the `/tags/` HTML diff.
+- **Sass:** compiled in an `eleventy.before` hook. `main.css` is byte-identical to the baseline, and `main.css.map` is still produced because live serves it.
+- **Results at the end of Phase 1:** the file list is identical to the baseline. Every HTML page matches after whitespace normalisation. feed.xml and podcast.xml differ only in the generator, the build time and whitespace. The sitemap URL set equals baseline and live. The Node validator passes the build and fails all six broken copies, matching the Ruby script.
 
 ---
 
