@@ -102,9 +102,9 @@ duration: '01:09:23'
 episodeimg: '/img/podcast/4.jpg'
 episodeno: 4
 sharing: true
-comments: true
-pageid: wus04
 hidden: true
+aigen:
+ - cover-art
 ---
 In this installment of Warmup Sessions I decided to kick it up a notch with some 138 bpm uplifting trance with splashes of vocals. Tracks all sourced from Juno Download again as it's turning out to be my go-to source for choons.
 

@@ -1,0 +1,22 @@
+{
+  "name": "djabstraction.com",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "validate": "node scripts/validate-feeds.mjs",
+    "compare-feeds": "node scripts/compare-feeds.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.7",
+    "fast-xml-parser": "5.11.2",
+    "js-yaml": "4.1.0",
+    "luxon": "3.7.2",
+    "markdown-it-anchor": "10.0.0",
+    "sass": "1.105.2"
+  }
+}

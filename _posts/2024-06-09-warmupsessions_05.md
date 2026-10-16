@@ -103,8 +103,8 @@ duration: '01:02:01'
 episodeimg: '/img/podcast/5.jpg'
 episodeno: 5
 sharing: true
-comments: true
-pageid: wus05
+aigen:
+ - cover-art
 ---
 It's been a long time since my last Warmup Sessions was released. Life is always happening but I've been itching to get back at it and finally got there.
 

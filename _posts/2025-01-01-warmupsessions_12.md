@@ -133,8 +133,10 @@ duration: '01:14:01'
 episodeimg: '/img/podcast/12.jpg'
 episodeno: 12
 sharing: true
-comments: true
-pageid: wus12
+aigen:
+ - cover-art
+ - intro-track
+ - description
 ---
 
 A Song of Remedy lingered in the stillness, soft and faint.
@@ -207,5 +209,3 @@ I still Miss You, beneath the skies.
 
 Through my Deepest Fear, I'll find my track,
 To Love Again Like That, no looking back.
-
-*This story has been generated with the assistance of ChatGPT*

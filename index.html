@@ -1,6 +1,11 @@
 ---
 layout: home
 background: '/img/bg-index.jpg'
-pagination: 
-  enabled: true
+pagination:
+  data: collections.paginatedPosts
+  size: 10
+  addAllPagesToCollections: true
+permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber | plus: 1 }}/{% else %}/{% endif %}"
+eleventyComputed:
+  title: "{{ site.title }}{% if pagination.pageNumber > 0 %} - page {{ pagination.pageNumber | plus: 1 }}{% endif %}"
 ---

@@ -133,8 +133,10 @@ duration: '01:09:36'
 episodeimg: '/img/podcast/13.jpg'
 episodeno: 13
 sharing: true
-comments: true
-pageid: wus13
+aigen:
+ - cover-art
+ - intro-track
+ - description
 ---
 
 I was lost & found in the endless black, drifting through space in search of a new home.
@@ -212,5 +214,3 @@ Night to fall, safe in sound,
 Through the storm, I'm heaven-bound.
 Stellar lights, void between stars,
 I keep on flying, no matter how far.
-
-*This story has been generated with the assistance of ChatGPT*

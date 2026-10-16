@@ -110,7 +110,7 @@ jobs:
 
 ### Supporting changes
 
-1. **AWS OIDC** (recommended, can be done separately). Add the GitHub OIDC identity provider in IAM. Create a role whose trust policy is limited to `repo:devoctomy/djabstraction.com:ref:refs/tags/v*` (or to the `production` environment). Grant only `s3:ListBucket`, `s3:PutObject`, `s3:PutObjectAcl`, `s3:DeleteObject` on the bucket and `cloudfront:CreateInvalidation` on the distribution. Then delete the static key secrets and deactivate the IAM user's keys.
+1. **AWS OIDC** (recommended, can be done separately). Add the GitHub OIDC identity provider in IAM. Create a role whose trust policy is limited to `repo:NickDevoctomy/djabstraction.com:ref:refs/tags/v*` (or to the `production` environment). Grant only `s3:ListBucket`, `s3:PutObject`, `s3:PutObjectAcl`, `s3:DeleteObject` on the bucket and `cloudfront:CreateInvalidation` on the distribution. Then delete the static key secrets and deactivate the IAM user's keys.
    - Fallback: keep the existing key secrets and only bump the action to `@v4`.
 2. **Tag protection.** Add a repository ruleset so that only admins can create, update or delete `v*` tags. The ancestry check stops deploys of tags that aren't on `main`. The ruleset stops anyone else from creating tags.
 3. **Branch protection on `main`.** Require the `build` check to pass before merging.

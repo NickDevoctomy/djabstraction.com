@@ -108,9 +108,9 @@ duration: '01:14:15'
 episodeimg: '/img/podcast/2.jpg'
 episodeno: 2
 sharing: true
-comments: true
-pageid: wus02
 hidden: true
+aigen:
+ - cover-art
 ---
 
 This is the second installment of 'Warmup Sessions', a series I have decided to use in a way that I can practice my mixing skills and track selections without being dead set on a specific genre, theme or release schedule. So expect these mixes to be uploaded pretty randomly

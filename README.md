@@ -1,81 +1,78 @@
 # djabstraction.com
 
-[![Build](https://github.com/devoctomy/djabstraction.com/actions/workflows/build.yml/badge.svg)](https://github.com/devoctomy/djabstraction.com/actions/workflows/build.yml)
-[![Deploy](https://github.com/devoctomy/djabstraction.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/devoctomy/djabstraction.com/actions/workflows/deploy.yml)
+[![Build](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/build.yml/badge.svg)](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/build.yml)
+[![Deploy](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/deploy.yml)
 
-This is the source code for djabstraction.com, built with the static site generator Jekyll and deployed to Amazon S3.
+This is the source code for djabstraction.com, built with the static site generator [Eleventy](https://www.11ty.dev/) and deployed to Amazon S3.
 
 ## Building & Testing Locally
 
-The recommended setup is Ubuntu under WSL2, which matches the Ubuntu machine CI builds on. These steps were tested on a fresh Ubuntu 26.04 WSL2 distro.
+The recommended setup is Ubuntu under WSL2, which matches the Ubuntu machine CI builds on. These steps were tested on Ubuntu 26.04 under WSL2.
 
-### 1. Install Ruby and build tools
+### 1. Install Node.js
 
 Run this **inside the Ubuntu shell** (a `user@host:~$` prompt), not in PowerShell. Windows 11 has its own `sudo`, so running this in PowerShell does nothing useful.
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y ruby-full build-essential zlib1g-dev
+sudo apt-get install -y nodejs npm
 ```
 
-This installs Ubuntu's packaged Ruby (3.3 on 26.04) plus the compiler that some gems need (`eventmachine`, `ffi`, `http_parser.rb`). CI uses the exact version in `.ruby-version`; any 3.3.x works locally.
+Ubuntu 26.04 packages Node 22. CI uses the major version in `.nvmrc`.
 
 To run the install from PowerShell instead, without opening the distro:
 
 ```powershell
-wsl -d Ubuntu-26.04 -u root -- sh -c "apt-get update && apt-get install -y ruby-full build-essential zlib1g-dev"
+wsl -d Ubuntu-26.04 -u root -- sh -c "apt-get update && apt-get install -y nodejs npm"
 ```
 
-### 2. Install gems into your home folder
+### 2. Install the site's packages
 
-This lets you run `gem` and `bundle` without `sudo`:
+From the repository root:
 
 ```bash
-cat >> ~/.bashrc <<'EOF'
-
-# Ruby gems in user home (no sudo needed)
-export GEM_HOME="$HOME/.gem"
-export PATH="$GEM_HOME/bin:$PATH"
-EOF
-source ~/.bashrc
+npm ci
 ```
 
-### 3. Install Bundler and the site's gems
+This installs the exact versions in `package-lock.json` into `node_modules/`.
 
-From the repository root, install the Bundler version recorded in `Gemfile.lock`, then the gems:
+### 3. Build and serve
 
 ```bash
-gem install bundler -v "$(tail -1 Gemfile.lock | tr -d ' ')" --no-document
-bundle install
+npm run build   # output goes to _site/
+npm run serve   # http://localhost:8080, rebuilds when files change
 ```
 
-### 4. Build and serve
+The site is available from the Windows browser at http://localhost:8080. WSL2 forwards localhost automatically.
 
-```bash
-bundle exec jekyll build                  # output goes to _site/
-bundle exec jekyll serve --force_polling  # http://localhost:4000
-bundle exec jekyll serve --force_polling --future  # include future-dated posts
-```
+Post dates are shown in London time (`Europe/London`). The build sets this itself, so no `TZ` setting is needed.
 
-The site is available from the Windows browser at http://localhost:4000. WSL2 forwards localhost automatically.
+Posts dated in the future are left out of the build. To preview one, temporarily give it a past date.
 
-### 5. Validate the feeds
+### 4. Validate the feeds
 
 After a build, check that the podcast feed and Atom feed are valid:
 
 ```bash
-bundle exec ruby .github/scripts/validate-feeds.rb
+npm run validate
 ```
 
 CI runs this after every build. If it fails, the build fails, and a deploy stops before anything is uploaded to S3.
 
+To compare the built feeds with the live site (whitespace, build times and date formatting are ignored):
+
+```bash
+npm run compare-feeds                                         # _site feeds vs https://www.djabstraction.com
+npm run compare-feeds -- _site/feed/podcast.xml other/podcast.xml  # any two files or URLs
+```
+
 ### Notes
 
-* **Where to clone.** Working from the Windows drive (e.g. `/mnt/e/Source/GitHub/djabstraction.com`) works, but each build takes 15–40 seconds and `--force_polling` is needed because file-change notifications don't reach Ubuntu there. For faster builds, clone inside the distro, e.g. `~/src/djabstraction.com`, and you can drop `--force_polling`.
-* **Sass warnings.** Deprecation warnings about `@import` come from the vendored Bootstrap and Clean Blog SCSS. They're harmless for now.
+* **Where to clone.** Working from the Windows drive (e.g. `/mnt/e/Source/GitHub/djabstraction.com`) works. File-change notifications don't reach Ubuntu there, so `npm run serve` polls for changes. For faster builds, clone inside the distro, e.g. `~/src/djabstraction.com`.
+* **Sass warnings.** The build hides Sass deprecation warnings caused by `@import` in the vendored Bootstrap and Clean Blog SCSS. They're harmless for now.
 * **systemd warning.** If `wsl` prints "Failed to start the systemd user session", you can ignore it; it doesn't affect the build. `wsl --shutdown` from PowerShell usually clears it.
-* **Native Windows.** `Gemfile.lock` also includes the Windows platform, so building without WSL should work with [RubyInstaller](https://rubyinstaller.org/) (with DevKit) for the version in `.ruby-version`, followed by the same `gem install bundler` / `bundle install` / `bundle exec jekyll serve` steps in PowerShell. This route hasn't been tested; WSL2 is the supported setup.
-* **Security audit.** `gem install bundler-audit && bundle-audit check --update` checks the locked gems against the Ruby advisory database.
+* **Native Windows.** With Node 22 installed on Windows, `npm ci`, `npm run build` and `npm run serve` should also work in PowerShell. This route hasn't been tested; WSL2 is the supported setup.
+* **Security audit.** `npm audit` checks the locked packages against the npm advisory database.
 
 ## Releasing
 

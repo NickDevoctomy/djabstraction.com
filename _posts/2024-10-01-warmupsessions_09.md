@@ -109,8 +109,9 @@ duration: '01:07:16'
 episodeimg: '/img/podcast/9.jpg'
 episodeno: 9
 sharing: true
-comments: true
-pageid: wus09
+aigen:
+ - cover-art
+ - description
 ---
 
 This month’s mix takes a slightly different direction, leaning more into instrumental territory but still accented by some standout vocal tracks, before closing with a heavy-hitting finale.
@@ -122,5 +123,3 @@ A track worth highlighting is "Reach for the Stars" by Darren Porter, XiJaro & P
 Further along, track 11, "Miss You" by Craig Connelly, stands out with its gorgeous vocals by Alina Renae. This one hits hard emotionally and feels like the perfect high point before diving into two heavier tracks by David Forbes.
 
 Wherever you are, I hope you enjoy this episode as much as I did putting it together!
-
-> This description has been 'enhanced' using ChatGPT

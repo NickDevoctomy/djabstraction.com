@@ -1,11 +1,15 @@
 ---
 layout: page
-title: Posts
 background: '/img/bg-post.jpg'
-pagination: 
-  enabled: true
-  tag: blog
+pagination:
+  data: collections.blogPosts
+  size: 10
+  addAllPagesToCollections: true
+permalink: "/posts/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber | plus: 1 }}/{% endif %}"
+eleventyComputed:
+  title: "Posts{% if pagination.pageNumber > 0 %} - page {{ pagination.pageNumber | plus: 1 }}{% endif %}"
 ---
+{% assign paginator = pagination | paginator %}
 
 {% for post in paginator.posts %}
 
@@ -20,11 +24,11 @@ pagination:
     {% endif %}
     <div class="post-content">
       <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-        <h1 class="post-title">{{ post.title }}</h1>
+        <h2 class="post-title">{{ post.title }}</h2>
         {% if post.subtitle %}
         <h2 class="post-subtitle">{{ post.subtitle }}</h2>
         {% endif %}
-        <h3 class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+        <h4 class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
       </a>
 
       <div class="tags">

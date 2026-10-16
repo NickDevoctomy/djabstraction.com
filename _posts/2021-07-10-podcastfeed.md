@@ -31,4 +31,4 @@ This is a new addition to the site, right next to the RSS feed button, is now a 
 
 To comply with GDPR, I have introduced a cookies popup along with a cookie policy page to clarify what cookies are used for on my site.  Just to recap here, they are used purely for Google Analytics (so I know if people are visiting my website) and to prevent the cookie popup from appearing once it has already been acknowledged. That is it.
 
-Of course, all of these changes to my site template are visible and if you're wanting to make a similar website for your own DJ mixes, you're free to use it, everything is available via [GitHub](https://github.com/devoctomy/djabstraction.com).
+Of course, all of these changes to my site template are visible and if you're wanting to make a similar website for your own DJ mixes, you're free to use it, everything is available via [GitHub](https://github.com/NickDevoctomy/djabstraction.com).

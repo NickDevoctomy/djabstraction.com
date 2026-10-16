@@ -133,8 +133,10 @@ duration: '01:11:11'
 episodeimg: '/img/podcast/15.jpg'
 episodeno: 15
 sharing: true
-comments: true
-pageid: wus15
+aigen:
+ - cover-art
+ - intro-track
+ - description
 ---
 
 He stood on the cliff's edge, staring out at something Far Away.
@@ -222,5 +224,3 @@ And we’ll end with a spark—Quattro
 
 We can Touch The Light, we'll never fall
 With the fire Within, we’ve got it all
-
-*[This story has been generated with the assistance of ChatGPT]*

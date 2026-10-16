@@ -1,0 +1,5 @@
+# What a mix's `aigen` front matter values mean. Each one is listed in the
+# generative AI footnote on the mix page.
+cover-art: Used in the generation of the cover art
+intro-track: Used in the generation of the intro track
+description: Used in the generation of the mix description
