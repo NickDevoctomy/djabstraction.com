@@ -130,7 +130,7 @@ export function dividedBy(input, operand) {
   return Number.isInteger(a) && Number.isInteger(b) ? Math.floor(a / b) : a / b;
 }
 
-// _plugins/time_to_seconds.rb: "HH:MM:SS" -> total seconds.
+// time_seconds (was _plugins/time_to_seconds.rb): "HH:MM:SS" -> total seconds.
 export function timeSeconds(input) {
   const [h = 0, m = 0, s = 0] = String(input).split(":").map((x) => parseInt(x, 10) || 0);
   return h * 3600 + m * 60 + s;

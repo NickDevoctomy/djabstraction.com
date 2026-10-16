@@ -29,9 +29,8 @@ export default function (eleventyConfig) {
   // --- Inputs -------------------------------------------------------------
 
   for (const ignored of [
-    "docs/**", "README.md", "AGENTS.md", "LICENSE", "jekyll-theme-clean-blog.gemspec",
-    "Gemfile*", "_plugins/**", "_sass/**", "_11ty/**", ".github/**", "node_modules/**",
-    "scripts/**", "assets/**", "img/**"
+    "docs/**", "README.md", "AGENTS.md", "LICENSE", "_sass/**", "_11ty/**", ".github/**",
+    "node_modules/**", "scripts/**", "assets/**", "img/**"
   ]) {
     eleventyConfig.ignores.add(ignored);
   }

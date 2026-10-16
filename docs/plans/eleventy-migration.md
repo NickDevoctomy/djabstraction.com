@@ -1,6 +1,6 @@
 # Plan: Migrate from Jekyll to Eleventy
 
-**Status:** Phase 0 and Phase 1 (1.1–1.6) done, uncommitted. 1.7 (remove Jekyll) waits for Phase 2. See "Phase 1 notes" below.
+**Status:** Phases 0–2 and 1.7 done (uncommitted). Waiting for the maintainer's manual checks (Phase 3). See "Verification results" at the end.
 **Date:** 2026-10-16
 **Branch:** `eleventy` (already checked out by the maintainer)
 **Background:** see `build-and-deploy-refactor.md` section 3 for why Eleventy was chosen.
@@ -312,3 +312,107 @@ The agent prepares these and then stops. The maintainer works through them.
 - Fix the stray `</s>` in the footer and the `<h4>…</h3>` mismatch on `mixes/index.html`.
 - Decide whether `expand_urls`, `cdata_escape`, `encode_email` and `json` should do something real, or whether to remove them.
 - Sass `@import` deprecation: once off Jekyll, consider moving the vendored SCSS to `@use`, or switch to the prebuilt Clean Blog CSS.
+
+---
+
+## Verification results
+
+Run on 2026-10-16 in WSL2 Ubuntu 26.04 with Node 22.22.1. The live snapshot (`~/baseline/live`) was taken the same morning, and the Phase 0 baseline matched live except for build timestamps.
+
+### Commands and output
+
+```
+$ rm -rf node_modules _site && npm ci && npm run build
+added 144 packages in 2s
+[11ty] Copied 1725 Wrote 32 files in 5.59 seconds (v3.1.7)
+
+$ npm run validate
+_site/feed/podcast.xml: 12 items checked
+_site/feed.xml: 10 entries checked
+Feeds OK.
+
+$ node scripts/compare-feeds.mjs _site/feed.xml ~/baseline/live/feed.xml
+_site/feed.xml (Atom, 10 entries) vs ~/baseline/live/feed.xml (Atom, 10 entries)
+  match
+$ node scripts/compare-feeds.mjs _site/feed/podcast.xml ~/baseline/live/feed/podcast.xml
+_site/feed/podcast.xml (RSS, 12 items) vs ~/baseline/live/feed/podcast.xml (RSS, 12 items)
+  match
+$ node scripts/compare-feeds.mjs _site/feed.xml ~/baseline/jekyll/feed.xml
+  match
+$ node scripts/compare-feeds.mjs _site/feed/podcast.xml ~/baseline/jekyll/feed/podcast.xml
+  match
+$ npm run compare-feeds        # against https://www.djabstraction.com over HTTPS
+_site/feed.xml (Atom, 10 entries) vs https://www.djabstraction.com/feed.xml (Atom, 10 entries)
+  match
+_site/feed/podcast.xml (RSS, 12 items) vs https://www.djabstraction.com/feed/podcast.xml (RSS, 12 items)
+  match
+```
+
+`compare-feeds` self-test on edited copies of the build (expected: exit 1, except the "allowed" rows):
+
+```
+changed guid              exit=1  DIFF rss[0].channel[0].item[1].guid[0].#text: ".../warmupsessions_15b.html" vs ...
+pubDate +1h               exit=1  DIFF rss[0].channel[0].item[0].pubDate[0]: ... (different instant)
+chapter title             exit=1  DIFF ...psc:chapter[14].@title: "Acues - A Million Dream (Original Mi..."
+subtitle one char         exit=1  DIFF rss[0].channel[0].item[0].itunes:subtitle[0]: "I wasX Lost in Sound, ..."
+dropped item              exit=1  DIFF rss[0].channel[0].item: 11 vs 12 element(s)
+atom summary              exit=1  DIFF feed[0].entry[0].summary[0].#text: "Uplifting Trance Mix!" vs "Uplifting Trance Mix."
+ALLOWED same instant      exit=0  (+0100 vs the equivalent +0000)
+ALLOWED whitespace/CRLF   exit=0
+ALLOWED generator         exit=0
+```
+
+Validator on broken copies (1.5). The Ruby script gave the same results before it was deleted:
+
+```
+real build                node=0 ruby=0
+unescaped & in title      node=1 ruby=1  not well-formed XML: char '&' is not expected. (line 54)
+empty enclosure length    node=1 ruby=1  item 1 (Episode 16): <enclosure length> must be a positive integer
+bare-URL channel artwork  node=1 ruby=1  channel: <itunes:image href> must be a .jpg or .png URL, got "/img/podcast/podcast.jpg"
+malformed chapter start   node=1 ruby=1  item 1 (Episode 16): chapter 2 start "3m38" is not HH:MM:SS
+duplicate guid            node=1 ruby=1  item 2 (Episode 15): duplicate guid .../warmupsessions_16.html (also item 1)
+atom entry without id     node=1 ruby=1  entry 1: missing <id>
+```
+
+### 2.1 URL parity: passed
+
+- The file lists of `~/baseline/jekyll` and `_site` are identical (1759 files, including `assets/main.css.map`). There are no extra or missing files.
+- All 29 `<loc>` URLs in the live sitemap exist in `_site`.
+- The new sitemap's URL set equals live's. Its 20 `lastmod` values are the same instants as the baseline's. The order of the non-post pages differs, as it already did between the baseline and live.
+
+### 2.2 Feeds against live: passed
+
+All three comparisons match (see above). The only differences are the allowed ones: `<generator>` (now Eleventy), the Atom feed `<updated>`, `lastBuildDate`, and whitespace.
+
+### 2.3 HTML parity: passed, one intended difference
+
+All 29 HTML files were compared with whitespace collapsed and attributes sorted. 28 are identical. `tags/index.html` differs only by the requested subtitle, e.g. "DJ Abstraction's Warmup Sessions - Episode 16" (75 links). With `" - Episode NN"` removed, it is identical. The pages singled out in 2.3 (home, `/page/2/`, `/mixes/`, `/mixes/page/2/`, `/tags/`, episode 16, a blog post) are covered by this comparison. That includes the pager links, the `time_seconds` onclick values, previous/next links, JSON-LD and read times.
+
+### 2.4 Other checks: passed
+
+- **CSS:** `assets/main.css` is byte-identical to the baseline.
+- **Future-dated posts:** a temporary post dated 2099-01-01 produced no page and appears in no HTML, XML, list, feed or sitemap (1759 files, the same as a normal build). As a control, the same post dated 2020-01-01 appeared in its own page, `/tags/`, `/mixes/page/2/`, the podcast feed, the sitemap and a neighbour's previous/next link. Both temporary posts were deleted.
+- **Hidden posts:** episodes 1–4 each have a page, and none appears in `/`, `/page/2/`, `/mixes/`, `/mixes/page/2/`, `/posts/` or `feed/podcast.xml`.
+- **Validator:** passes on the build and fails on each broken copy (see above).
+- **Workflows:** both parse. Build: checkout → Set up Node → Install dependencies → Build → Validate feeds. Deploy: checkout → tag/main check → Set up Node → Install dependencies → Build → Validate feeds → AWS credentials → S3 sync → CloudFront invalidation.
+
+### 1.7: done after Phase 2 passed
+
+Deleted `Gemfile`, `Gemfile.lock`, `_config.yml`, `_plugins/`, `.ruby-version`, `jekyll-theme-clean-blog.gemspec`, `.jekyll-cache/` and `.github/scripts/validate-feeds.rb`. Updated `README.md` and `AGENTS.md` (the rules section is unchanged). After the removal, a clean install and build was re-run: validate OK, all four feed comparisons match, file lists identical, CSS identical, only `tags/index.html` differs.
+
+### Accepted differences
+
+| Difference | Reason |
+|---|---|
+| `<generator>` is Eleventy in both feeds | Build tool changed; allowed by the plan. |
+| `/tags/` shows "title - subtitle" | Maintainer's request: every mix had the same title. |
+| Whitespace inside HTML and feed content | markdown-it vs kramdown formatting; ignored by the comparisons. |
+| Sitemap page order | Never stable: the baseline and live already differ. |
+| Source edits in `about/`, `podcast/`, `cookies/` and `newformat.md` | Rewritten in the form kramdown served, so the output is unchanged (see Phase 1 notes). |
+| `posts/index.html` uses `h2`/`h4` | Matches what live actually served (see Phase 1 notes). |
+
+### Extra follow-ups found during the migration
+
+- Normalise line endings (e.g. a `.gitattributes`). This changes the feed.xml `<summary>` of the two CRLF blog posts to their first paragraph, and the excerpts of episodes 9–16 on a Windows checkout.
+- `posts/index.html` and `mixes/index.html` are now near-duplicates and could share an include.
+- `/page/2/` repeats the home page's 5 latest posts (the home layout ignores pagination). Consider dropping home pagination, though that removes a URL.
