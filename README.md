@@ -79,7 +79,7 @@ CI runs this after every build. If it fails, the build fails, and a deploy stops
 
 ## Releasing
 
-Merging to `main` does **not** deploy. The [Build](.github/workflows/build.yml) workflow builds every pull request and every push to `main` to check the site still builds.
+Merging to `main` does **not** deploy. The [Build](.github/workflows/build.yml) workflow builds and validates every push to any branch, and every pull request.
 
 To publish, tag a commit on `main` and push the tag:
 

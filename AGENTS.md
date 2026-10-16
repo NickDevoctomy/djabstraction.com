@@ -40,7 +40,7 @@ bundle exec jekyll serve --force_polling --future  # include future-dated posts
 
 ## CI/CD
 
-- `.github/workflows/build.yml` builds PRs and pushes to `main`, then validates the feeds. It never deploys.
+- `.github/workflows/build.yml` builds every push to any branch and every PR, then validates the feeds. It never deploys.
 - `.github/workflows/deploy.yml` deploys only from `v*` tags on commits in `main`: Jekyll build, feed validation, `aws s3 sync --delete`, then a CloudFront invalidation. A feed validation failure stops the deploy before anything is uploaded.
 - `.github/scripts/validate-feeds.rb` checks that both feeds are well-formed XML and that every podcast episode has the required fields with valid values (enclosure URL and length, guid, pubDate, duration, episode number, artwork, chapter times). When adding a field to the podcast template, add a check here too.
 - `_config.yml` sets `timezone: Europe/London`, which controls post dates and when future-dated posts appear.
