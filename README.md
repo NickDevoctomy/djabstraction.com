@@ -59,6 +59,16 @@ bundle exec jekyll serve --force_polling --future  # include future-dated posts
 
 The site is available from the Windows browser at http://localhost:4000. WSL2 forwards localhost automatically.
 
+### 5. Validate the feeds
+
+After a build, check that the podcast feed and Atom feed are valid:
+
+```bash
+bundle exec ruby .github/scripts/validate-feeds.rb
+```
+
+CI runs this after every build. If it fails, the build fails, and a deploy stops before anything is uploaded to S3.
+
 ### Notes
 
 * **Where to clone.** Working from the Windows drive (e.g. `/mnt/e/Source/GitHub/djabstraction.com`) works, but each build takes 15–40 seconds and `--force_polling` is needed because file-change notifications don't reach Ubuntu there. For faster builds, clone inside the distro, e.g. `~/src/djabstraction.com`, and you can drop `--force_polling`.
