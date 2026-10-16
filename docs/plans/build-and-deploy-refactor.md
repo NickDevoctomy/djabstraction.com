@@ -1,6 +1,6 @@
 # Plan: Build & Deploy Refactor
 
-**Status:** In progress. CI split, toolchain and docs done (2026-10-16). AWS OIDC deferred. GitHub tag ruleset and branch protection pending.
+**Status:** In progress. CI split, toolchain and docs done locally (2026-10-16), not yet committed. AWS OIDC deferred. GitHub tag ruleset and branch protection pending.
 **Date:** 2026-10-16
 **Scope:** CI/CD trigger, local build tooling and docs, static site generator choice
 
@@ -224,10 +224,11 @@ If a migration does happen, it should be its own plan (`docs/plans/eleventy-migr
 
 ## Suggested order of work
 
-Done so far:
-- PR 1 file changes. `.travis.yml` was removed separately in `4990d51`. `bin/cibuild`, `gulpfile.js` and `package-lock.json` were removed as well. `_config.yml` also excludes `docs/`, `README.md`, `LICENSE` and the theme gemspec from the published site.
+Done so far (uncommitted, in the working tree):
+- PR 1 file changes. `bin/cibuild`, `gulpfile.js` and `package-lock.json` were removed as well. `_config.yml` also excludes `docs/`, `README.md`, `AGENTS.md`, `LICENSE` and the theme gemspec from the published site. The GitHub tag ruleset and branch protection still need setting up by hand.
 - PR 3 (`.ruby-version` is 3.3.8 to match Ubuntu 26.04's packaged Ruby, Jekyll 4.4.1, Bundler 4.0.23, all advisories cleared).
 - PR 4 (README covers WSL2 setup, native Windows as an untested option, and releasing). Docker and dev container docs were not added.
+- `AGENTS.md` added with repository rules for AI agents.
 
 1. **PR 1 (CI):** add `build.yml` and `deploy.yml`, delete `jekyll_build.yml`, `.travis.yml` and `script/cibuild`, set the timezone, update the README badge. Then set up the tag ruleset and branch protection in GitHub settings.
 2. **PR 2 (AWS OIDC):** create the IAM role, switch `deploy.yml` to `role-to-assume`, and remove the static key secrets.
