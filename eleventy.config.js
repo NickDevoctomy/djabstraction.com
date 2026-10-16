@@ -4,6 +4,7 @@ import yaml from "js-yaml";
 import * as sass from "sass";
 import site from "./_data/site.js";
 import * as jekyll from "./_11ty/jekyll.js";
+import * as afterglow from "./_11ty/afterglow.js";
 
 // Post dates, feeds and the sitemap are shown in London time.
 process.env.TZ = jekyll.TIMEZONE;
@@ -30,17 +31,16 @@ export default function (eleventyConfig) {
 
   for (const ignored of [
     "docs/**", "README.md", "AGENTS.md", "LICENSE", "_sass/**", "_11ty/**", ".github/**",
-    "node_modules/**", "scripts/**", "assets/**", "img/**"
+    "node_modules/**", "scripts/**", "assets/**", "img/**", "temp/**"
   ]) {
     eleventyConfig.ignores.add(ignored);
   }
 
-  // Jekyll skips files whose names start with "_" (Sass/Less partials).
   eleventyConfig.addPassthroughCopy("img");
-  eleventyConfig.addPassthroughCopy("assets/*.{css,js}");
-  eleventyConfig.addPassthroughCopy("assets/vendor/**/[!_]*");
+  eleventyConfig.addPassthroughCopy("assets/*.js");
   eleventyConfig.addPassthroughCopy("favicon.ico");
   eleventyConfig.addPassthroughCopy("robots.txt");
+  eleventyConfig.addPassthroughCopy("manifest.json");
   eleventyConfig.addPassthroughCopy("feed/stylesheet.xsl");
 
   eleventyConfig.addTemplateFormats("xml");
@@ -115,6 +115,16 @@ export default function (eleventyConfig) {
   };
   for (const [name, fn] of Object.entries(filters)) eleventyConfig.addFilter(name, fn);
 
+  // Filters for the Afterglow templates (see _11ty/afterglow.js).
+  eleventyConfig.addFilter("cover", afterglow.cover);
+  eleventyConfig.addFilter("chapters", afterglow.chapters);
+  eleventyConfig.addFilter("mix_title", afterglow.mixTitle);
+  eleventyConfig.addFilter("human_duration", afterglow.humanDuration);
+  eleventyConfig.addFilter("adjacent", afterglow.adjacent);
+  eleventyConfig.addFilter("episode_json", afterglow.episodeJson);
+  eleventyConfig.addFilter("search_json", afterglow.searchJson);
+  eleventyConfig.addFilter("to_json", afterglow.toJson);
+
   // --- Collections --------------------------------------------------------
 
   // site.posts: published posts, newest first, each with previous (older)
@@ -174,7 +184,7 @@ export default function (eleventyConfig) {
       data: "_data",
       output: "_site"
     },
-    templateFormats: ["html", "md", "xml"],
+    templateFormats: ["html", "md", "xml", "liquid"],
     markdownTemplateEngine: "liquid",
     htmlTemplateEngine: "liquid"
   };

@@ -1,0 +1,26 @@
+{%- comment -%} Older and newer neighbours, skipping hidden posts. {%- endcomment -%}
+{%- assign older = collections.paginatedPosts | adjacent: page.url, 1 -%}
+{%- assign newer = collections.paginatedPosts | adjacent: page.url, -1 -%}
+{%- if older == nil and newer == nil -%}
+  {%- assign this_post = collections.posts | post_for_url: page.url -%}
+  {%- assign older = this_post.previous -%}
+  {%- assign newer = this_post.next -%}
+{%- endif -%}
+<nav class="wrap pager" aria-label="More posts">
+  {% if older %}
+  <a class="pager__link" href="{{ older.url }}">
+    {% if older.episodeimg %}<img src="{{ older.episodeimg | cover: 192 }}" alt="" width="72" height="72" loading="lazy" />{% endif %}
+    <span><span class="pager__dir">{% include icon.html name="arrow-left" px=14 %} Previous</span><strong>{{ older | mix_title }}</strong></span>
+  </a>
+  {% else %}
+  <span class="pager__link pager__link--empty">This is the first post</span>
+  {% endif %}
+  {% if newer %}
+  <a class="pager__link pager__link--next" href="{{ newer.url }}">
+    <span><span class="pager__dir">Next {% include icon.html name="arrow-right" px=14 %}</span><strong>{{ newer | mix_title }}</strong></span>
+    {% if newer.episodeimg %}<img src="{{ newer.episodeimg | cover: 192 }}" alt="" width="72" height="72" loading="lazy" />{% endif %}
+  </a>
+  {% else %}
+  <span class="pager__link pager__link--empty">This is the latest post</span>
+  {% endif %}
+</nav>

@@ -1,0 +1,7 @@
+{%- assign item = include.post -%}
+<a class="post-card" href="{{ item.url }}">
+  <span class="eyebrow">{{ item.date | date: "%e %b %Y" }}{% for tag in item.tags %}{% unless tag == "blog" or tag == "misc" %} · {{ tag }}{% endunless %}{% endfor %}</span>
+  <strong>{{ item.title }}</strong>
+  <span class="post-card__excerpt">{{ item.excerpt | strip_html | truncatewords: 30 }}</span>
+  <span class="post-card__meta">{% include read_time.html content=item.content %}</span>
+</a>

@@ -1,27 +1,12 @@
-<!--
- Post sharing snippet
-
- v2.1
- https://github.com/cotes2020/jekyll-theme-chirpy
- © 2019 Cotes Chung
- Published under the MIT License
--->
-<div class="share-wrapper">
-  <span class="share-label text-muted mr-1">{{ share.label }}</span>
-  <span class="share-icons">
-	{% capture share_title %}{{ title }} - {{ site.title }}{% endcapture %}
-	{% assign url = page.url | absolute_url %}
-
-	{% for share in share.platforms %}
-	  {% assign link = share.link | replace: 'TITLE', share_title | replace: 'URL', url %}
-		<a href="{{ link }}" data-toggle="tooltip" data-placement="top"
-		  title="{{ share.type }}" target="_blank" rel="noopener" aria-label="{{ share.type }}">
-		  <i class="fa-fw {{ share.icon }}"></i>
-		</a>
-	{% endfor %}
-
-	<i class="fa-fw fas fa-link small" onclick="copyLink()"
-		data-toggle="tooltip" data-placement="top" title="Copy link"></i>
-
-  </span>
+{%- capture share_title %}{{ mix_name | default: title }} - {{ site.title }}{% endcapture -%}
+{%- assign url = page.url | absolute_url -%}
+<div class="share">
+  <span class="share__label">{{ share.label }}</span>
+  <ul class="share__icons">
+    {% for platform in share.platforms %}
+    {%- assign link = platform.link | replace: 'TITLE', share_title | replace: 'URL', url -%}
+    <li><a class="icon-btn" href="{{ link }}" target="_blank" rel="noopener" aria-label="Share on {{ platform.type }}" data-no-swap>{% assign icon_name = platform.type | downcase %}{% include icon.html name=icon_name %}</a></li>
+    {% endfor %}
+    <li><button class="icon-btn" type="button" aria-label="Copy link" data-copy-page>{% include icon.html name="link" %}</button></li>
+  </ul>
 </div>

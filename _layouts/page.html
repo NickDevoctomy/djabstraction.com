@@ -1,34 +1,20 @@
 ---
 layout: default
 ---
+{%- assign backdrop_img = background | cover: 960 -%}
+{% include backdrop.html image1=backdrop_img %}
 
-<!-- Page Header -->
-{% if background %}
-<header class="masthead" style="background-image: url('{{ background | prepend: site.baseurl | replace: '//', '/' }}')">
+<header class="wrap{% unless wide %} wrap--narrow{% endunless %} page-head">
+  <h1 class="page-head__title">{{ title }}</h1>
+  {% if description %}<p class="page-head__lede">{{ description }}</p>{% endif %}
+</header>
+
+<div class="wrap{% unless wide %} wrap--narrow{% endunless %}">
+  {% if wide %}
+  {{ content }}
   {% else %}
-  <header class="masthead">
-    {% endif %}
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="page-heading">
-            <h1>{{ title }}</h1>
-            {% if description %}
-            <span class="subheading">{{ description }}</span>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-
-        {{ content }}
-
-      </div>
-    </div>
+  <div class="prose prose--panel">
+    {{ content }}
   </div>
+  {% endif %}
+</div>

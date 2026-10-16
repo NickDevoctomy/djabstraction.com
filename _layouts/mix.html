@@ -1,105 +1,116 @@
 ---
 layout: default
+nav: mixes
 ---
-{% assign this_post = collections.posts | post_for_url: page.url %}
+{%- assign this_post = collections.posts | post_for_url: page.url -%}
+{%- assign chapters = tracklist | chapters: duration -%}
+{%- assign mix_name = this_post | mix_title -%}
+{%- assign backdrop_img = episodeimg | cover: 960 -%}
+{% include backdrop.html image1=backdrop_img %}
 
-<!-- Page Header -->
-<script>
-function settime(pos){
-    var audio= document.getElementById("AudioPlayer");
-    audio.currentTime=pos;
-    audio.play();
-    return true;
-}
-</script>
+<section class="wrap episode-head">
+  {% if episodeimg %}
+  <img class="episode-head__art" src="{{ episodeimg | cover: 720 }}" alt="{{ mix_name }} cover art" width="720" height="720" fetchpriority="high" />
+  {% endif %}
+  <div class="episode-head__text">
+    <span class="eyebrow">{{ subtitle }}{% if genre %} · {{ genre }}{% endif %}</span>
+    <h1 class="episode-head__title">{{ mix_name }}</h1>
+    <ul class="chips" aria-label="About this mix">
+      <li class="chip">{{ page.date | date: "%e %B %Y" }}</li>
+      {% if duration %}<li class="chip">{{ duration }}</li>{% endif %}
+      <li class="chip">{{ tracklist.size }} tracks</li>
+      {% for tag in tags %}{% unless tag == "mix" %}
+      <li><a class="chip chip--tag" href="/search/?tag={{ tag | url_encode }}">#{{ tag }}</a></li>
+      {% endunless %}{% endfor %}
+    </ul>
+  </div>
+</section>
 
-{% if background %}
-<header class="masthead" style="background-image: url('{{ background | prepend: site.baseurl | replace: '//', '/' }}')">
-  {% else %}
-  <header class="masthead">
-    {% endif %}
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-heading">
-            <h1 class="post-title">{{ title }}</h1>
-            <h2 class="post-subtitle">{{ subtitle }}</h2>
-            <h3 class="subheading">{{ genre }}</h2>
-            <div class="tags">
-              {% for tag in tags %}
-              <a href="{{ baseurl }}/tags/#{{tag}}">{{ tag }}</a>
-              {% endfor %}
-            </div>
-            <span class="meta">Posted by
-              <a href="#">{% if author %}{{ author }}{% else %}{{ site.author }}{% endif %}</a>
-              on {{ page.date | date: '%B %d, %Y' }} &middot; {% include read_time.html
-              content=content %}
-            </span>
-          </div>
-        </div>
+<section class="wrap">
+  <div class="player-card" data-episode="{{ this_post | episode_json | escape }}">
+    <div class="player-card__top">
+      <button class="play-btn" type="button" aria-label="Play {{ mix_name }}" data-play-episode="{{ page.url }}">
+        <span data-when="paused">{% include icon.html name="play" px=22 %}</span>
+        <span data-when="playing">{% include icon.html name="pause" px=22 %}</span>
+      </button>
+      <div class="player-card__now">
+        <span class="player-card__label" data-now-label>Track 01 of {{ chapters.size }} · starts {{ chapters.first.startpos }}</span>
+        <strong data-now-line>{{ chapters.first.artist }} — {{ chapters.first.title }}</strong>
+      </div>
+      <div class="player-card__actions">
+        {% if downloadurl %}
+        <a class="btn btn--ghost" href="{{ downloadurl }}" data-no-swap>{% include icon.html name="download" %} Download</a>
+        {% endif %}
+        <button class="icon-btn icon-btn--lg" type="button" aria-label="Share" data-share data-share-title="{{ mix_name }} - {{ site.title }}">{% include icon.html name="share" %}</button>
       </div>
     </div>
-  </header>
-  
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
 
-        {{ content }}
-        
-        <hr>
-        <ol>
-          {% for track in tracklist %}
-            <li>{{ track.artist }} - {{ track.title }} {% if track.label %} [{{ track.label}} {% endif %}]
-            {% if track.startpos %}
-              <i onclick="return settime({{ track.startpos | time_seconds }});" class="fas fa-headphones-alt" style="cursor: pointer;"></i>
-            {% endif %}
-            {% if track.purchaseurl %}
-              <a href="{{ track.purchaseurl }}"><i class="fas fa-shopping-cart"></i></a>
-            {% endif %}
-            </li>
-          {% endfor %}
-        </ol>
-        <audio id="AudioPlayer" style="width: 100%" controls controlsList="nodownload">
-          <source src="{{ mp3streamurl }}" type="audio/mpeg">
-        </audio>
-        {% if downloadurl %}
-          <form method="get" action="{{ downloadurl }}">
-            <button type="submit" class="btn btn-success">Download</button>
-          </form>
-          <hr>
-        {% endif %}
-		
-        {% if aigenNotes.size > 0 %}
-          <div class="aigen-note text-muted">
-            {% include aigen_note.html notes=aigenNotes %}
-          </div>
-          <hr>
-        {% endif %}
-
-		{% if sharing %}
-			{% include share.html %}
-		{% endif %}
-
-        <div class="clearfix">
-
-          {% if this_post.previous.url %}
-          <a class="btn btn-primary float-left" href="{{ this_post.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ this_post.previous.title }}">&larr; Previous<span class="d-none d-md-inline">
-              Post</span></a>
-          {% endif %}
-          {% if this_post.next.url %}
-          <a class="btn btn-primary float-right" href="{{ this_post.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ this_post.next.title }}">Next<span class="d-none d-md-inline">
-              Post</span> &rarr;</a>
-          {% endif %}
-
-        </div>
-		<hr>
-		<div class="alert alert-success" role="alert">
-			To make listening to my mixes as easy as possible I've created a Podcast feed which you should be able to subscribe to using any good Podcast player on your smartphone or other device.  One such player that I have tested and highly recommend is AntennaPod which is free to download on Google Play and does not contain any advertising.
-		</div>
-    <a href="https://antennapod.org/deeplink/subscribe?url=https%3A%2F%2Fwww.djabstraction.com%2Ffeed%2Fpodcast.xml&title=DJ%20Abstraction%27s%20Warmup%20Sessions"><img src="/img/podcast/apbadge.png" width="250"></a>	
+    <div class="timeline" style="--progress: 0">
+      <div class="timeline__cues" aria-hidden="true">
+        {% for c in chapters %}<span class="timeline__cue" style="left: {{ c.pct }}%"></span>{% endfor %}
       </div>
+      <div class="timeline__segs">
+        {% for c in chapters %}
+        <button class="timeline__seg" type="button" style="flex-grow: {{ c.length }}" data-seek="{{ c.start }}" data-index="{{ forloop.index0 }}" title="{{ c.n }} · {{ c.artist }} — {{ c.title }}" aria-label="Play track {{ c.n }}, {{ c.title }}, from {{ c.startpos }}"><span>{{ c.n }}</span></button>
+        {% endfor %}
+      </div>
+      <div class="timeline__times"><span data-now-time>00:00:00</span><span>{{ duration }}</span></div>
     </div>
   </div>
-  
+</section>
+
+<section class="wrap episode-body">
+  <div class="episode-body__main">
+    <h2 class="section-title">Tracklist</h2>
+    <ol class="tracklist">
+      {% for c in chapters %}
+      <li class="track" data-index="{{ forloop.index0 }}">
+        {% if c.startpos %}
+        <button class="track__play" type="button" data-seek="{{ c.start }}" aria-label="Play from {{ c.startpos }}">{% include icon.html name="play" px=14 %}</button>
+        {% endif %}
+        <span class="track__time">{{ c.startpos }}</span>
+        <span class="track__text">
+          <strong>{{ c.title }}</strong>
+          <span>{{ c.artist }}{% if c.label %} · {{ c.label }}{% endif %}</span>
+        </span>
+        {% if c.purchaseurl %}
+        <a class="track__buy" href="{{ c.purchaseurl }}" rel="noopener" target="_blank" aria-label="Buy {{ c.title }}{% if c.purchasesite %} on {{ c.purchasesite }}{% endif %}">
+          {% include icon.html name="cart" px=15 %}<span>{{ c.purchasesite | default: "Buy" }}</span>
+        </a>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+
+  <aside class="episode-body__aside">
+    <div class="card">
+      <h2 class="card__title">The story</h2>
+      <div class="prose prose--clamp" data-clamp>
+        {{ content }}
+      </div>
+      <button class="link-accent clamp-toggle" type="button" data-clamp-toggle hidden>Read the full story ↓</button>
+    </div>
+
+    {% if aigenNotes.size > 0 %}
+    <div class="card card--dashed ai-note">
+      {% include aigen_note.html notes=aigenNotes %}
+    </div>
+    {% endif %}
+
+    {% if sharing %}
+    {% include share.html %}
+    {% endif %}
+
+    <div class="card card--accent">
+      <strong class="card__title">Get every session automatically</strong>
+      <p>Subscribe to the podcast in AntennaPod, which is free and ad-free, or in any podcast player.</p>
+      <div class="card__actions">
+        <a class="btn btn--primary btn--sm" href="{{ site.antennapod_url }}" data-no-swap>AntennaPod</a>
+        <a class="btn btn--ghost btn--sm" href="/podcast/">Other players</a>
+      </div>
+    </div>
+  </aside>
+</section>
+
+{% include pager.html %}

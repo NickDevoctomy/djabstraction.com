@@ -1,33 +1,47 @@
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>
-    {% if title %}{{ title | escape }} - {{ site.title | escape }}
+    {% if layout == "mix" and episodeno %}{{ site.podcast_shorttitle | escape }} {{ subtitle | remove: "Episode " }} - {{ site.title | escape }}
+    {% elsif title and title != site.title %}{{ title | escape }} - {{ site.title | escape }}
     {% else %}{{ site.title | escape }}{% endif %}
   </title>
 
-  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'/>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'/>
-  <link rel="stylesheet" href="{{"/assets/vendor/bootstrap/css/bootstrap.min.css" | relative_url }}"/>
-  <link rel="stylesheet" href="{{"/assets/vendor/fontawesome-free/css/all.min.css" | relative_url }}"/>
-  <link rel="stylesheet" href="{{"/assets/main.css" | relative_url }}"/>
-  <link rel="stylesheet" href="{{"/assets/extra.css" | relative_url }}"/>
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}"/>
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" />
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}" />
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}" />
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.podcast_title | escape }}" href="{{ "/feed/podcast.xml" | relative_url }}" />
+
+  <!-- App -->
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png" />
+  <meta name="theme-color" content="{{ site.background }}" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="{{ site.title | escape }}" />
 
   <!-- Meta Tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="{% if description %}{{ description | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}" />
+  {% if keywords %}
+  <meta name="keywords" content="{{ keywords | join: ", " }}" />
+  {% endif %}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@{{site.twitter_username}}" />
-  <meta name="twitter:creator" content="@{{site.twitter_username}}" />
   <meta property="og:url" content="{{ page.url | replace:'index.html','' | absolute_url }}" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}" />
   <meta property="og:description" content="{{ excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}" />
-  {% if background %}
+  {% if episodeimg %}
+  <meta property="og:image" content="{{ site.url }}{{ episodeimg }}" />
+  {% elsif background %}
   <meta property="og:image" content="{{ site.url }}{{ background }}" />
   {% endif %}
-  
+
   {% if site.google_tagmanager %}
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -38,31 +52,27 @@
   <!-- End Google Tag Manager -->
   {% endif %}
 
-  <meta name="description" content="{{ description }}">
-  {% if keywords %}
-  <meta name="keywords" content="{{ keywords | join: ", " }}">
-  {% endif %}
-
   {% if layout == "mix" %}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "MusicPlaylist",
-      "name": "{{ site.podcast_title }} - Episode {{ episodeno }}",
+      "name": {{ site.podcast_title | append: " - Episode " | append: episodeno | to_json }},
+      "numTracks": {{ tracklist.size }},
       "track": [
-        {% for track in tracklist %}
-          {
-            "@type": "MusicRecording",
-            "name": "{{ track.title | json }}"
-            "byArtist": {
-              "@type": "MusicGroup",
-              "name": "{{ track.artist | json }}"
-            }
-            "url": "{{ track.purchaseurl }}"
-          }
-        {% endfor %}
+        {%- for track in tracklist %}
+        {
+          "@type": "MusicRecording",
+          "name": {{ track.title | to_json }},
+          "byArtist": { "@type": "MusicGroup", "name": {{ track.artist | strip | to_json }} }
+          {%- if track.purchaseurl %},
+          "url": {{ track.purchaseurl | to_json }}{% endif %}
+        }{% unless forloop.last %},{% endunless %}
+        {%- endfor %}
       ]
     }
   </script>
   {% endif %}
+
+  <script src="{{ "/assets/app.js" | relative_url }}" defer></script>
 </head>

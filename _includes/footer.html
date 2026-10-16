@@ -1,62 +1,29 @@
-<!-- Footer -->
-
-<hr>
-
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <ul class="list-inline text-center">
-          {% if site.email %}
-          <li class="list-inline-item">
-            <a href="mailto:{{ site.email | encode_email }}">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="far fa-envelope fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-          {% if site.instagram_username %}
-          <li class="list-inline-item">
-            <a href="https://instagram.com/{{ site.instagram_username }}">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-          {% if site.spotify_userid %}
-          <li class="list-inline-item">
-            <a href="https://open.spotify.com/user/{{ site.spotify_userid }}">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-spotify fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          {% endif %}
-          <li class="list-inline-item">
-            <a href="/feed.xml">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="/feed/podcast.xml">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fa fa-podcast fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>		  
-        </ul>
-        <p class="copyright text-muted">Copyright &copy; {{ site.author }} {{ 'now' | date: "%Y" }}</p>
-		<a href="/cookies" ><p class="copyright text-muted">Our Cookie Policy</p></s>
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__brand">
+      <img src="/img/logo_large.svg" alt="{{ site.title }}" width="351" height="60" />
+      <div class="site-footer__meta">
+        <span>&copy; {{ site.author }} {{ 'now' | date: "%Y" }}</span>
+        <a href="/cookies/">Cookie policy</a>
+        {% if build.version %}
+        <a class="version-chip" href="{{ build.versionUrl }}" rel="noopener" title="This version of the site on GitHub">
+          {% include icon.html name="tag" px=14 %}{{ build.version }}
+        </a>
+        {% endif %}
       </div>
     </div>
+    <ul class="social" aria-label="Elsewhere">
+      {% if site.email %}
+      <li><a class="icon-btn" href="mailto:{{ site.email | encode_email }}" aria-label="Email">{% include icon.html name="mail" %}</a></li>
+      {% endif %}
+      {% if site.instagram_username %}
+      <li><a class="icon-btn" href="https://instagram.com/{{ site.instagram_username }}" aria-label="Instagram">{% include icon.html name="instagram" %}</a></li>
+      {% endif %}
+      {% if site.spotify_userid %}
+      <li><a class="icon-btn" href="https://open.spotify.com/user/{{ site.spotify_userid }}" aria-label="Spotify">{% include icon.html name="spotify" %}</a></li>
+      {% endif %}
+      <li><a class="icon-btn" href="/feed.xml" aria-label="RSS feed" data-no-swap>{% include icon.html name="rss" %}</a></li>
+      <li><a class="icon-btn" href="/feed/podcast.xml" aria-label="Podcast feed" data-no-swap>{% include icon.html name="podcast" %}</a></li>
+    </ul>
   </div>
 </footer>

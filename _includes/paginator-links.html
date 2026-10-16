@@ -1,0 +1,11 @@
+{% if paginator.total_pages > 1 %}
+<nav class="paginator" aria-label="Pages">
+  {% if paginator.previous_page %}
+  <a class="btn btn--ghost" href="{{ paginator.previous_page_path | replace: 'index.html', '' }}">{% include icon.html name="arrow-left" px=16 %} Newer</a>
+  {% else %}<span></span>{% endif %}
+  <span class="paginator__count">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  {% if paginator.next_page %}
+  <a class="btn btn--ghost" href="{{ paginator.next_page_path | replace: 'index.html', '' }}">Older {% include icon.html name="arrow-right" px=16 %}</a>
+  {% else %}<span></span>{% endif %}
+</nav>
+{% endif %}
