@@ -1,7 +1,7 @@
 # djabstraction.com
 
-[![Build](https://github.com/devoctomy/djabstraction.com/actions/workflows/build.yml/badge.svg)](https://github.com/devoctomy/djabstraction.com/actions/workflows/build.yml)
-[![Deploy](https://github.com/devoctomy/djabstraction.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/devoctomy/djabstraction.com/actions/workflows/deploy.yml)
+[![Build](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/build.yml/badge.svg)](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/build.yml)
+[![Deploy](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/NickDevoctomy/djabstraction.com/actions/workflows/deploy.yml)
 
 This is the source code for djabstraction.com, built with the static site generator Jekyll and deployed to Amazon S3.
 
