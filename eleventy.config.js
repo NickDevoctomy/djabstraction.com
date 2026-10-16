@@ -161,14 +161,10 @@ export default function (eleventyConfig) {
     return [...tags];
   });
 
-  // feed.xml: the 10 newest mixes, the same posts as feed/podcast.xml (mix
-  // layout, not hidden). Newest first; posts sharing a timestamp come out in
-  // file path order, as in the Jekyll build.
+  // feed.xml (jekyll-feed): newest first; posts sharing a timestamp come out
+  // in file path order in the Jekyll build, so keep that.
   eleventyConfig.addCollection("feedPosts", (api) =>
-    jekyllPosts(api)
-      .filter((p) => p.layout === "mix" && !p.hidden)
-      .sort((a, b) => b.date - a.date || a.path.localeCompare(b.path))
-      .slice(0, 10)
+    jekyllPosts(api).sort((a, b) => b.date - a.date || a.path.localeCompare(b.path)).slice(0, 10)
   );
 
   // sitemap.xml (jekyll-sitemap): every post oldest first, then every other
