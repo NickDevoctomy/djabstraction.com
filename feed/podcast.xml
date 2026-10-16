@@ -54,19 +54,20 @@ eleventyExcludeFromCollections: true
 		{% for post in collections.posts %}
 			{% if post.layout == "mix" %}
 				{% unless post.hidden %}
+					{% capture aigen_html %}{% if post.aigenNotes.size > 0 %}{% include aigen_note.html notes=post.aigenNotes feed=true %}{% endif %}{% endcapture %}
 					<item>
 						<title>{{ post.subtitle }}</title>		
 						<author>{% if post.author %}{{ post.author }}{% else %}{{ site.podcast_author }}{% endif %}</author>
 						<guid isPermaLink="{% if post.podcast_guid %}false{% else %}true{% endif %}">{{ site.url }}{% if post.podcast_guid %}/{{ post.podcast_guid }}{% else %}{{ post.url }}{% endif %}</guid>
 						<link>{{ site.url }}{{ post.url }}</link>
-						<description><![CDATA[{{ post.content | expand_urls: site.url | cdata_escape }}]]></description>
+						<description><![CDATA[{{ post.content | expand_urls: site.url | cdata_escape }}{{ aigen_html }}]]></description>
 						<pubDate>{{ post.date | date: "%a, %d %b %Y %T %z" }}</pubDate>
 						<enclosure url="{{ post.mp3streamurl }}" length="{{ post.mp3lengthbytes }}" type="audio/mpeg"/>
 						{% for tag in post.tags %}
 						<category>{{ tag }}</category>
 						{% endfor %}
 
-						<content:encoded><![CDATA[ {{ post.content | expand_urls: site.url | cdata_escape }} <p>Tracklist:<ol>{% for track in post.tracklist %}<li>{{ track.artist | xml_escape }} - {{ track.title | xml_escape }}</li>{% endfor %}</ol></p> ]]></content:encoded>
+						<content:encoded><![CDATA[ {{ post.content | expand_urls: site.url | cdata_escape }} <p>Tracklist:<ol>{% for track in post.tracklist %}<li>{{ track.artist | xml_escape }} - {{ track.title | xml_escape }}</li>{% endfor %}</ol></p> {{ aigen_html }} ]]></content:encoded>
 
 						<dc:creator>{% if post.author %}{{ post.author }}{% else %}{{ site.podcast_author }}{% endif %}</dc:creator>
 
@@ -80,7 +81,7 @@ eleventyExcludeFromCollections: true
 						<itunes:title>{{ site.podcast_shorttitle }}</itunes:title>
 						<itunes:subtitle>{{ post.content | strip_html | xml_escape | truncate: 252, "..." }}</itunes:subtitle>
 						<itunes:episodeType>full</itunes:episodeType>
-						<itunes:summary>{{ post.content | strip_html | xml_escape }}</itunes:summary>
+						<itunes:summary>{{ post.content | append: aigen_html | strip_html | xml_escape }}</itunes:summary>
 						<itunes:author>{% if post.author %}{{ post.author }}{% else %}{{ site.podcast_author }}{% endif %}</itunes:author>
 						<itunes:image href="{{ site.url }}{{ post.episodeimg }}"/>
 						<itunes:duration>{{ post.duration | time_seconds }}</itunes:duration>

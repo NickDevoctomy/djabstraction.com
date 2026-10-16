@@ -135,6 +135,10 @@ episodeno: 16
 sharing: true
 comments: true
 pageid: wus16
+aigen:
+ - cover-art
+ - intro-track
+ - description
 ---
 
 I was Lost in Sound, letting the noise drown out everything I couldn't face.
@@ -231,5 +235,3 @@ You were the light I didn't expect,
 Never Saw You Coming, but now I reflect.
 You pulled me up when I fell,
 You helped me To Find Myself.
-
-*[This story has been generated with the assistance of ChatGPT]*

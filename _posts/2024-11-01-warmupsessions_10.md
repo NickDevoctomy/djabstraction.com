@@ -131,6 +131,9 @@ episodeno: 10
 sharing: true
 comments: true
 pageid: wus10
+aigen:
+ - cover-art
+ - description
 ---
 
 It's been a bit of a whirlwind month for me - perhaps I've been juggling one too many things at once. And with the US election looming large, I've had a relentless stream of political content popping up in my feed, mostly thanks to my own curiosity. But I wouldn't feel right not mentioning it in this episode; it's a critical moment globally, wherever you are. Unless, of course, you happen to be a despot millionaire or a raging bigot - though I'm fairly certain the Trance family doesn't attract that sort! This music is all about love, unity, and a shared vibe, after all. So, here's hoping for a blue wave and for Harris to take up the presidency. The world really doesn't need another surge of fascism. If you're voting, I hope you vote for Blue! If not then, well, good luck.
@@ -144,5 +147,3 @@ Another highlight is 'Toca's Miracle' by 'Talla 2XLC & Fragma', a classic from 2
 Finally, there's 'Leave Me Again' by 'Siege'. It's got that energetic bassline I can't get enough of, topped with lush female vocals. Just my kind of vibe.
 
 Wherever you're tuning in from, I hope you enjoy this episode. Until next time, stay safe!
-
-> This description has been 'enhanced' using ChatGPT

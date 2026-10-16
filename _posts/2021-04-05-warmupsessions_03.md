@@ -104,6 +104,8 @@ sharing: true
 comments: true
 pageid: wus03
 hidden: true
+aigen:
+ - cover-art
 ---
 
 This time I've decided to go for Progressive House, mixing up a collection of more sombre sounding tracks, with some splashes of uplifting vocals.  My favourite tracks in the mix are 'Chasing Stars' by 'Dave Ralph', 'Mahe' by 'Fulltone' for that ominous but beautiful melody and of course 'Never Let You Go' by 'A-Mase / Mister Monj' as I just love the emotional vocals at that point in the mix.

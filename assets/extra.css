@@ -64,3 +64,15 @@ video::-webkit-media-controls-panel {
 .share-wrapper {
 	text-align: end;
 }
+
+.aigen-note {
+	font-size: .875rem;
+}
+
+.aigen-note p {
+	margin: 0 0 .5rem;
+}
+
+.aigen-note ul {
+	margin-bottom: 0;
+}

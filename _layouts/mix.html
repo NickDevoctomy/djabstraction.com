@@ -71,6 +71,13 @@ function settime(pos){
           <hr>
         {% endif %}
 		
+        {% if aigenNotes.size > 0 %}
+          <div class="aigen-note text-muted">
+            {% include aigen_note.html notes=aigenNotes %}
+          </div>
+          <hr>
+        {% endif %}
+
 		{% if sharing %}
 			{% include share.html %}
 		{% endif %}

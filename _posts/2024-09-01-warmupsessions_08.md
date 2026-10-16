@@ -111,6 +111,9 @@ episodeno: 8
 sharing: true
 comments: true
 pageid: wus08
+aigen:
+ - cover-art
+ - description
 ---
 As the UK summer lingers, I'm thrilled to bring you an extended episode of Warmup Sessions, packed with the latest and greatest in uplifting trance. This mix isn't just a playlist, it's a journey through euphoric highs and pounding basslines, meticulously crafted to elevate your
 spirits and get your pulse racing.
@@ -120,5 +123,3 @@ I spent serious time refining this one, reworking the sequence to perfection. Al
 Favourites of mine would be Ashley, by Peri & Filo, featuring the amazing vocals of Aruna, one of, if not the best female Trance vocalist. Home by Coast 2 Coast, for its Techno-like, heavy basslines that leads nicely into Pagoda, one of my all time favourites.
 
 Whether you're driving through city lights or lost in your own space, I promise this mix will take you places. Crank up the volume, lose yourself in the sound, and enjoy the ride. Happy listening!
-
-> This description has been 'enhanced' using ChatGPT

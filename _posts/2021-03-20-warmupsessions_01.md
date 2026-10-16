@@ -111,6 +111,8 @@ sharing: true
 comments: true
 pageid: wus01
 hidden: true
+aigen:
+ - cover-art
 ---
 
 Well after quite a lengthy break from doing DJ mixes of any kind, I'm back, during the times of Covid lockdowns and working from home every day, what better way to spend some of my new found time?

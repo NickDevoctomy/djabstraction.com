@@ -406,6 +406,8 @@ Deleted `Gemfile`, `Gemfile.lock`, `_config.yml`, `_plugins/`, `.ruby-version`, 
 |---|---|
 | `<generator>` is Eleventy in both feeds | Build tool changed; allowed by the plan. |
 | `/tags/` shows "title - subtitle" | Maintainer's request: every mix had the same title. |
+| Mix pages show a "Generative AI" footnote | Maintainer's request: new optional `aigen` front matter (keys in `_data/aigen_uses.yml`), rendered by `_includes/aigen_note.html`. |
+| Podcast `description`, `content:encoded` and `itunes:summary`, and Atom mix `content`, differ for every mix | Maintainer's request: the "This story/description … ChatGPT" lines were removed from the mix posts, and the same generative AI note is appended in the feeds. Guids, enclosures and dates are unchanged, so apps update the show notes without re-downloading. Until this is deployed, `npm run compare-feeds` against live reports these fields (and nothing else). |
 | Whitespace inside HTML and feed content | markdown-it vs kramdown formatting; ignored by the comparisons. |
 | Sitemap page order | Never stable: the baseline and live already differ. |
 | Source edits in `about/`, `podcast/`, `cookies/` and `newformat.md` | Rewritten in the form kramdown served, so the output is unchanged (see Phase 1 notes). |

@@ -135,6 +135,10 @@ episodeno: 14
 sharing: true
 comments: true
 pageid: wus14
+aigen:
+ - cover-art
+ - intro-track
+ - description
 ---
 
 Karpassia felt empty, just echoes of days gone by.
@@ -209,5 +213,3 @@ A dream of peace, but I'm torn inside,
 A moment in time where love won't hide.
 A love story lost, but I'll try again,
 On the other side, will you let me in?
-
-*[This story has been generated with the assistance of ChatGPT]*

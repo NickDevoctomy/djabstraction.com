@@ -105,6 +105,8 @@ episodeno: 6
 sharing: true
 comments: true
 pageid: wus06
+aigen:
+ - cover-art
 ---
 Well I've actually managed to keep schedule this month, let's hope that this continues!
 
