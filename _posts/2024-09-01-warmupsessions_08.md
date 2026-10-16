@@ -109,8 +109,6 @@ duration: '01:09:52'
 episodeimg: '/img/podcast/8.jpg'
 episodeno: 8
 sharing: true
-comments: true
-pageid: wus08
 aigen:
  - cover-art
  - description

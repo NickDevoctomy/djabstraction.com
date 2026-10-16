@@ -129,8 +129,6 @@ duration: '01:11:48'
 episodeimg: '/img/podcast/10.jpg'
 episodeno: 10
 sharing: true
-comments: true
-pageid: wus10
 aigen:
  - cover-art
  - description

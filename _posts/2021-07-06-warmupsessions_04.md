@@ -102,8 +102,6 @@ duration: '01:09:23'
 episodeimg: '/img/podcast/4.jpg'
 episodeno: 4
 sharing: true
-comments: true
-pageid: wus04
 hidden: true
 aigen:
  - cover-art

@@ -108,8 +108,6 @@ duration: '01:05:04'
 episodeimg: '/img/podcast/1.jpg'
 episodeno: 1
 sharing: true
-comments: true
-pageid: wus01
 hidden: true
 aigen:
  - cover-art

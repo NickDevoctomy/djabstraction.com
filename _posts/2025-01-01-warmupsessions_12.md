@@ -133,8 +133,6 @@ duration: '01:14:01'
 episodeimg: '/img/podcast/12.jpg'
 episodeno: 12
 sharing: true
-comments: true
-pageid: wus12
 aigen:
  - cover-art
  - intro-track

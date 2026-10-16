@@ -103,8 +103,6 @@ duration: '01:02:01'
 episodeimg: '/img/podcast/6.jpg'
 episodeno: 6
 sharing: true
-comments: true
-pageid: wus06
 aigen:
  - cover-art
 ---

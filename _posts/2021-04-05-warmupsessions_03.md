@@ -101,8 +101,6 @@ duration: '00:59:42'
 episodeimg: '/img/podcast/3.jpg'
 episodeno: 3
 sharing: true
-comments: true
-pageid: wus03
 hidden: true
 aigen:
  - cover-art
