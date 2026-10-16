@@ -1,0 +1,11 @@
+{%- assign mix = include.mix -%}
+<a class="mix-card" href="{{ mix.url }}">
+  <span class="mix-card__art">
+    {%- if mix.episodeimg %}<img src="{{ mix.episodeimg | cover: 480 }}" alt="" width="480" height="480" loading="lazy" decoding="async" />{% endif -%}
+    <span class="mix-card__play">{% include icon.html name="play" px=18 %}</span>
+  </span>
+  <span class="mix-card__text">
+    <strong>{{ mix | mix_title }}</strong>
+    <span>{{ mix.genre }} · {{ mix.date | date: "%b %Y" }} · {{ mix.duration }}</span>
+  </span>
+</a>

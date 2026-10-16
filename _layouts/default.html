@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en-GB">
 
 {% include head.html %}
 
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   {% include navbar.html %}
 
-  {{ content }}
-  
+  <main id="main" data-nav="{{ nav }}" tabindex="-1">
+    {{ content }}
+  </main>
+
   {% include footer.html %}
 
-  {% include scripts.html %}
-
+  {% include player.html %}
 </body>
 
 </html>

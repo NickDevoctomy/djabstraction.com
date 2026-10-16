@@ -1,4 +1,4 @@
-<p>{% if include.feed %}🤖{% else %}<i class="fas fa-robot" aria-hidden="true"></i>{% endif %} <strong>Generative AI</strong></p>
+<p>{% if include.feed %}🤖{% else %}{% include icon.html name="robot" %}{% endif %} <strong>Generative AI</strong></p>
 <p>In the interests of clarity, for anyone with strong objections to the use of generative AI, this is exactly where it was used for this episode. The track selection and the mix itself are entirely my own work.</p>
 <ul>
 {% for note in include.notes %}<li>{{ note }}</li>

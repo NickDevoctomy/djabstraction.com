@@ -28,5 +28,12 @@ export default {
   podcast_language: "en-GB",
   podcast_copyright: "Copyright 2006 - 2024 DJ Abstraction",
 
-  google_tagmanager: "GTM-NVQP42Q"
+  google_tagmanager: "GTM-NVQP42Q",
+
+  repo_url: "https://github.com/NickDevoctomy/djabstraction.com",
+  antennapod_url:
+    "https://antennapod.org/deeplink/subscribe?url=https%3A%2F%2Fwww.djabstraction.com%2Ffeed%2Fpodcast.xml&title=DJ%20Abstraction%27s%20Warmup%20Sessions",
+  // Theme colours, also used by the web app manifest.
+  accent: "#F49A1A",
+  background: "#0A0A0D"
 };

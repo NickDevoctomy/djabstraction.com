@@ -1,31 +1,19 @@
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-  <div class="container">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      Menu
-      <i class="fa fa-bars"></i>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a class="site-header__logo" href="/" aria-label="{{ site.title }} home">
+      <img src="/img/logo_large.svg" alt="{{ site.title }}" width="246" height="42" />
+    </a>
+    <button class="icon-btn site-header__toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Menu" data-menu-toggle>
+      {% include icon.html name="menu" px=20 %}
     </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{"/" | relative_url }}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{"/about" | relative_url }}">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ "/posts" | relative_url }}">Posts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ "/mixes" | relative_url }}">Mixes</a>
-        </li>		
-        <li class="nav-item">
-          <a class="nav-link" href="{{ "/tags" | relative_url }}">Tags</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ "/podcast" | relative_url }}">Podcast</a>
-        </li>		
-      </ul>
-    </div>
+    <nav class="site-nav" id="site-nav" aria-label="Main">
+      <a href="/mixes/" data-nav="mixes"{% if nav == "mixes" %} aria-current="page"{% endif %}>Mixes</a>
+      <a href="/posts/" data-nav="posts"{% if nav == "posts" %} aria-current="page"{% endif %}>Posts</a>
+      <a href="/podcast/" data-nav="podcast"{% if nav == "podcast" %} aria-current="page"{% endif %}>Podcast</a>
+      <a href="/about/" data-nav="about"{% if nav == "about" %} aria-current="page"{% endif %}>About</a>
+      <a class="site-nav__search" href="/search/" data-nav="search"{% if nav == "search" %} aria-current="page"{% endif %}>
+        {% include icon.html name="search" px=16 %}<span>Search mixes, tracks…</span>
+      </a>
+    </nav>
   </div>
-</nav>
+</header>

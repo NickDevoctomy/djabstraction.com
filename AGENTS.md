@@ -22,7 +22,12 @@ Instructions for AI coding agents working in this repository.
   - `feed/podcast.xml` is a **hand-written Liquid template** for the podcast RSS. Changes to it, or to post front matter, can break podcast apps.
   - `feed.xml` (Atom) and `sitemap.xml` are hand-written templates that reproduce the old `jekyll-feed` and `jekyll-sitemap` output.
 - Post URLs are podcast GUIDs. Never change a post's date or file name after it's published.
-- `assets/vendor/` holds vendored Bootstrap, Font Awesome and Clean Blog. Don't edit them.
+- Theme ("Afterglow"): `_sass/styles.scss` compiles to `/assets/main.css`. Icons are inline SVGs from `_includes/icon.html` (pass the size as `px=`; `include.size` is Liquid's argument count). Template helpers (cover thumbnails, mix timeline, player and search data) are in `_11ty/afterglow.js`.
+- Front end: `assets/app.js` runs the player, in-place page loading, search and the cookie notice. Same-site links swap `<main id="main">` instead of loading a new page, so the player keeps playing. Keep each page's content inside `<main>`, and don't put inline `<script>` in page content: it won't run after an in-place load. Use `data-*` hooks handled in `app.js` instead. Add `data-no-swap` to links that must load normally.
+- Search: `/search/` gets its index from `collections.paginatedPosts` at build time (hidden posts are left out). `/tags/` only redirects there.
+- Installable web app: `manifest.json`, `sw.liquid` (built to `/sw.js`) and the icons in `img/icons/`. The service worker never caches audio.
+- The footer version comes from `_data/build.js`: the deploy's tag, else the tag on `HEAD`, else the short commit hash.
+- `assets/vendor/` holds the old theme's vendored Bootstrap, Font Awesome and Clean Blog. The site no longer uses or publishes them. Don't edit them.
 - `docs/plans/` holds design and refactor plans. `docs/` is excluded from the built site.
 
 ## Build

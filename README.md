@@ -69,7 +69,7 @@ npm run compare-feeds -- _site/feed/podcast.xml other/podcast.xml  # any two fil
 ### Notes
 
 * **Where to clone.** Working from the Windows drive (e.g. `/mnt/e/Source/GitHub/djabstraction.com`) works. File-change notifications don't reach Ubuntu there, so `npm run serve` polls for changes. For faster builds, clone inside the distro, e.g. `~/src/djabstraction.com`.
-* **Sass warnings.** The build hides Sass deprecation warnings caused by `@import` in the vendored Bootstrap and Clean Blog SCSS. They're harmless for now.
+* **Cover thumbnails.** The build makes small WebP copies of the cover art in `_site/img/generated/` with `@11ty/eleventy-img`. The first build after a clean takes a little longer.
 * **systemd warning.** If `wsl` prints "Failed to start the systemd user session", you can ignore it; it doesn't affect the build. `wsl --shutdown` from PowerShell usually clears it.
 * **Native Windows.** With Node 22 installed on Windows, `npm ci`, `npm run build` and `npm run serve` should also work in PowerShell. This route hasn't been tested; WSL2 is the supported setup.
 * **Security audit.** `npm audit` checks the locked packages against the npm advisory database.
@@ -92,6 +92,10 @@ Posts dated in the future aren't published until a deploy runs on or after their
 
 To redeploy an existing tag, run the Deploy workflow manually from the Actions tab and pick the tag as the ref.
 
+## The site as an app
+
+The site can be installed as an app ("Install app" in Chrome or Edge, Share → "Add to Home Screen" in Safari). The player keeps playing between pages and in the background, and shows the current track on the lock screen with play, pause and skip-track controls. `manifest.json`, `sw.liquid` and `img/icons/` make this work.
+
 ## Acknowledgements
 
-This site was derived from the Jekyll Theme, [Clean Blog](https://startbootstrap.com/theme/clean-blog-jekyll) by [StartBootstrap](https://github.com/StartBootstrap).
+This site was originally derived from the Jekyll Theme, [Clean Blog](https://startbootstrap.com/theme/clean-blog-jekyll) by [StartBootstrap](https://github.com/StartBootstrap).

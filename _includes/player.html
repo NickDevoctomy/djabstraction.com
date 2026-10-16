@@ -1,0 +1,35 @@
+<!-- Mini player: lives outside <main>, so it keeps playing between pages. -->
+<div class="miniplayer" id="miniplayer" hidden>
+  <audio id="audio" preload="none"></audio>
+  <a class="miniplayer__art" href="/" data-mp-link aria-label="Open episode">
+    <img src="" alt="" width="52" height="52" data-mp-cover />
+  </a>
+  <div class="miniplayer__info">
+    <strong data-mp-track></strong>
+    <span data-mp-episode></span>
+  </div>
+  <div class="miniplayer__controls">
+    <button class="icon-btn miniplayer__skip" type="button" aria-label="Previous track" data-mp-prev>{% include icon.html name="prev" px=16 %}</button>
+    <button class="miniplayer__play" type="button" aria-label="Play" data-mp-toggle>
+      <span data-when="paused">{% include icon.html name="play" px=16 %}</span>
+      <span data-when="playing">{% include icon.html name="pause" px=16 %}</span>
+    </button>
+    <button class="icon-btn miniplayer__skip" type="button" aria-label="Next track" data-mp-next>{% include icon.html name="next" px=16 %}</button>
+  </div>
+  <div class="miniplayer__progress">
+    <span class="miniplayer__time" data-mp-time>00:00:00</span>
+    <div class="miniplayer__bar">
+      <div class="miniplayer__fill" data-mp-fill></div>
+      <input type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" data-mp-seek />
+    </div>
+    <span class="miniplayer__time" data-mp-duration>00:00:00</span>
+  </div>
+  <button class="icon-btn miniplayer__close" type="button" aria-label="Close player" data-mp-close>{% include icon.html name="close" px=16 %}</button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<div class="cookie-notice" id="cookie-notice" hidden>
+  <p>This site uses cookies for anonymous analytics and to remember this notice. <a href="/cookies/">Read the cookie policy</a>.</p>
+  <button class="btn btn--primary btn--sm" type="button" data-cookie-ok>Got it</button>
+</div>

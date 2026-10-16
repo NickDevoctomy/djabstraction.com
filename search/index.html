@@ -1,0 +1,56 @@
+---
+layout: default
+title: Search
+nav: search
+description: "Search every mix, post, artist, track and label"
+---
+{%- assign recent = collections.mixPosts | slice: 0, 3 -%}
+{%- assign b1 = recent[0].episodeimg | cover: 960 -%}
+{%- assign b2 = recent[1].episodeimg | cover: 960 -%}
+{%- assign b3 = recent[2].episodeimg | cover: 960 -%}
+{% include backdrop.html image1=b1 image2=b2 image3=b3 %}
+
+<div class="search" data-search>
+  <header class="wrap search__head">
+    <h1 class="page-head__title">Search</h1>
+    <form class="search-box" role="search" action="/search/" method="get" data-search-form>
+      <label class="visually-hidden" for="search-q">Search mixes, posts, artists, tracks and labels</label>
+      {% include icon.html name="search" size=22 %}
+      <input id="search-q" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="Try “Gayax”, “Anjunabeats” or “progressive”" data-search-input />
+    </form>
+  </header>
+
+  <div class="wrap search__body">
+    <aside class="filters" aria-label="Filters">
+      <fieldset class="filters__group">
+        <legend>Show</legend>
+        <div class="segmented" data-filter="type">
+          <button type="button" data-value="all" aria-pressed="true">All</button>
+          <button type="button" data-value="mix" aria-pressed="false">Mixes</button>
+          <button type="button" data-value="post" aria-pressed="false">Posts</button>
+        </div>
+      </fieldset>
+      <fieldset class="filters__group">
+        <legend>Tags</legend>
+        <div class="pills" data-filter="tags"></div>
+      </fieldset>
+      <fieldset class="filters__group">
+        <legend>Year</legend>
+        <div class="pills" data-filter="year"></div>
+      </fieldset>
+      <button class="link-accent" type="button" data-search-reset>Clear all filters</button>
+    </aside>
+
+    <section class="results" aria-label="Results">
+      <div class="results__bar">
+        <span data-search-summary aria-live="polite"></span>
+        <button class="btn btn--ghost btn--sm" type="button" data-search-sort>Sort: Newest first</button>
+      </div>
+      <ol class="results__list" data-search-results></ol>
+      <p class="results__empty" data-search-empty hidden>Nothing matches. Try fewer tags or a different search.</p>
+      <noscript><p class="results__empty">Search needs JavaScript. You can still browse all <a href="/mixes/">mixes</a> and <a href="/posts/">posts</a>.</p></noscript>
+    </section>
+  </div>
+
+  <script type="application/json" data-search-index>{{ collections.paginatedPosts | search_json }}</script>
+</div>

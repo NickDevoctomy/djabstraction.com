@@ -1,60 +1,27 @@
 ---
 layout: default
+nav: posts
 ---
-{% assign this_post = collections.posts | post_for_url: page.url %}
+{%- assign backdrop_img = background | cover: 960 -%}
+{% include backdrop.html image1=backdrop_img %}
 
-<!-- Page Header -->
-{% if background %}
-<header class="masthead" style="background-image: url('{{ background | prepend: site.baseurl | replace: '//', '/' }}')">
-  {% else %}
-  <header class="masthead">
-    {% endif %}
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="post-heading">
-            <h1 class="post-title">{{ title }}</h1>
-            {% if subtitle %}
-            <h2 class="post-subtitle">{{ subtitle }}</h2>
-            {% endif %}
-            <div class="tags">
-              {% for tag in tags %}
-              <a href="{{ baseurl }}/tags/#{{tag}}">{{ tag }}</a>
-              {% endfor %}
-            </div>
-            <span class="meta">Posted by
-              <a href="#">{% if author %}{{ author }}{% else %}{{ site.author }}{% endif %}</a>
-              on {{ page.date | date: '%B %d, %Y' }} &middot; {% include read_time.html
-              content=content %}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+<article>
+  <header class="wrap wrap--narrow page-head">
+    <span class="eyebrow">{{ page.date | date: "%e %B %Y" }} · {% include read_time.html content=content %}</span>
+    <h1 class="page-head__title">{{ title }}</h1>
+    {% if subtitle %}<p class="page-head__lede">{{ subtitle }}</p>{% endif %}
+    <ul class="chips" aria-label="Tags">
+      {% for tag in tags %}{% unless tag == "blog" %}
+      <li><a class="chip chip--tag" href="/search/?tag={{ tag | url_encode }}">#{{ tag }}</a></li>
+      {% endunless %}{% endfor %}
+    </ul>
   </header>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-
-        {{ content }}
-
-        <hr>
-
-        <div class="clearfix">
-
-          {% if this_post.previous.url %}
-          <a class="btn btn-primary float-left" href="{{ this_post.previous.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ this_post.previous.title }}">&larr; Previous<span class="d-none d-md-inline">
-              Post</span></a>
-          {% endif %}
-          {% if this_post.next.url %}
-          <a class="btn btn-primary float-right" href="{{ this_post.next.url | prepend: site.baseurl | replace: '//', '/' }}" data-toggle="tooltip" data-placement="top" title="{{ this_post.next.title }}">Next<span class="d-none d-md-inline">
-              Post</span> &rarr;</a>
-          {% endif %}
-
-        </div>
-
-      </div>
+  <div class="wrap wrap--narrow">
+    <div class="prose prose--panel">
+      {{ content }}
     </div>
   </div>
+</article>
+
+{% include pager.html %}

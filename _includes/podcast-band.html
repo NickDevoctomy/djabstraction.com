@@ -1,0 +1,15 @@
+<section class="wrap section">
+  <div class="podcast-band">
+    <img src="{{ site.podcast_album_art | cover: 320 }}" alt="" width="160" height="160" loading="lazy" />
+    <div class="podcast-band__text">
+      <h2>Never miss a session</h2>
+      <p>Subscribe in any podcast player and new mixes arrive the moment they go live. No ads.</p>
+    </div>
+    <div class="podcast-band__actions">
+      <button class="btn btn--ghost" type="button" data-copy="{{ site.podcast_url }}" data-copy-message="Podcast feed URL copied">
+        {% include icon.html name="copy" %} Copy feed URL
+      </button>
+      <a class="btn btn--primary" href="{{ site.antennapod_url }}" data-no-swap>Open in AntennaPod</a>
+    </div>
+  </div>
+</section>

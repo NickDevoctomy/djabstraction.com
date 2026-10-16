@@ -1,0 +1,8 @@
+{%- comment -%} Blurred artwork behind the top of a page. Pass up to three image URLs. {%- endcomment -%}
+<div class="backdrop" aria-hidden="true">
+  <div class="backdrop__art">
+    {%- if include.image1 %}<div style="background-image: url('{{ include.image1 }}')"></div>{% endif -%}
+    {%- if include.image2 %}<div style="background-image: url('{{ include.image2 }}')"></div>{% endif -%}
+    {%- if include.image3 %}<div style="background-image: url('{{ include.image3 }}')"></div>{% endif -%}
+  </div>
+</div>

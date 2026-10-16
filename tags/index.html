@@ -1,36 +1,21 @@
 ---
-layout: page
-title: Tags
-description: Tags tags tags tags...
-background: '/img/bg-tags.jpg'
+eleventyExcludeFromCollections: true
 ---
-
-<div class="tags">
-{% assign tags_list = collections.tagList %}
-  {% if tags_list.first[0] == null %}
-    {% for tag in tags_list %}
-        <a data-scroll href="#{{ tag }}">{{ tag }}</a>
-    {% endfor %}
-  {% else %}
-    {% for tag in tags_list %}
-        <a data-scroll href="#{{ tag[0] }}">{{ tag[0] }}</a>
-    {% endfor %}
-  {% endif %}
-{% assign tags_list = nil %}
-</div>
-
-{% for tag in collections.tagList  %}
-    <span class="tag-title" id="{{ tag[0] }}">{{ tag[0] }}</span>
-    <ul class="post-list">
-        {% assign pages_list = tag[1] %}
-        {% for post in pages_list reversed %}
-            {% if post.title != null %}
-            {% if group == null or group == post.group %}
-            <li><a href="{{ post.url }}">{{ post.title }}{% if post.subtitle %} - {{ post.subtitle }}{% endif %}<span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%B %d, %Y" }}</time></a></li>
-            {% endif %}
-            {% endif %}
-        {% endfor %}
-        {% assign pages_list = nil %}
-        {% assign group = nil %}
-    </ul>
-{% endfor %}
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <title>Tags - {{ site.title | escape }}</title>
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="{{ '/search/' | absolute_url }}" />
+  <meta http-equiv="refresh" content="0; url=/search/" />
+  <script>
+    // The tags page became the search page: /tags/#trance -> /search/?tag=trance
+    var tag = decodeURIComponent(location.hash.slice(1));
+    location.replace("/search/" + (tag ? "?tag=" + encodeURIComponent(tag) : ""));
+  </script>
+</head>
+<body>
+  <p>Tags have moved to <a href="/search/">search</a>.</p>
+</body>
+</html>
